@@ -25,6 +25,16 @@ public class Main {
             System.out.println("Srednie CPD: " + resultsCPD.calculateCPDAverage());
             System.out.println("Sredni Error: " + resultsCPD.calculateErrorAverage());
             System.out.println("Odchylenie standardowe " + resultsCPD.standardDeviation());
+            System.out.println("Q2=  " + resultsCPD.calculateQ2());
+            System.out.println("Q1=  " + resultsCPD.calculateQ1());
+            System.out.println("Q3=  " + resultsCPD.calculateQ3());
+            System.out.println("Q1 > x < Q3=  average : " + resultsCPD.calculaetPoint2_5Average());
+            System.out.println("Q1 > x < Q3=  standard deviation: " + resultsCPD.calculaetPoint2_5StandardDeviation());
+
+            Correlation correlation = new Correlation("results_correlation.txt");
+
+            System.out.println("\nPoint 3");
+            System.out.println("Coorelation: " + correlation.calculateCorrelation());
         } catch (IOException e) {
             e.printStackTrace();
         }

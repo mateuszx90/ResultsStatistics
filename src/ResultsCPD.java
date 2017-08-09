@@ -1,8 +1,12 @@
+import org.junit.runner.RunWith;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ResultsCPD {
@@ -36,17 +40,24 @@ public class ResultsCPD {
     }
 
     public double standardDeviation() {
+        return calculateStandardDeviation(filteredDataCPD);
+    }
 
+    public double calculateStandardDeviation(List<DataCPD> list) {
         double sum = 0;
         double average = calculateCPDAverage();
-        for (DataCPD cpd : filteredDataCPD) {
+        for (DataCPD cpd : list) {
             sum += Math.pow(cpd.cpd - average, 2);
         }
 
-        return Math.sqrt(sum / (double) (filteredDataCPD.size()));
+        return Math.sqrt(sum / (double) (list.size()));
     }
 
     public double calculateCPDAverage() {
+        return calculateAverage(filteredDataCPD);
+    }
+
+    private static double calculateAverage(List<DataCPD> filteredDataCPD) {
         double sumCpd = 0;
         for (DataCPD cpd : filteredDataCPD) {
             sumCpd += cpd.cpd;
@@ -91,6 +102,79 @@ public class ResultsCPD {
         }
 
         return data;
+    }
+
+     double calculateQ2() {
+         return calculateMedianaList(filteredDataCPD);
+    }
+    //Q1 = -0.3155
+    double calculateQ1() {
+        double Q2 = calculateMedianaList(filteredDataCPD);
+        List<DataCPD> left = new ArrayList<>();
+        for (DataCPD dataCPD : filteredDataCPD) {
+            if (dataCPD.cpd < Q2) {
+                left.add(dataCPD);
+            }
+        }
+
+        return calculateMedianaList(left);
+    }
+
+    //Q3 = -0.3015
+    double calculateQ3() {
+        double Q2 = calculateMedianaList(filteredDataCPD);
+        List<DataCPD> left = new ArrayList<>();
+        for (DataCPD dataCPD : filteredDataCPD) {
+            if (dataCPD.cpd > Q2) {
+                left.add(dataCPD);
+            }
+        }
+
+        return calculateMedianaList(left);
+    }
+
+    private double calculateMedianaList(List<DataCPD> list) {
+        Collections.sort(list, new Comparator<DataCPD>() {
+            @Override
+            public int compare(DataCPD o1, DataCPD o2) {
+                return Double.compare(o1.cpd, o2.cpd);
+            }
+        });
+
+        if (list.size() % 2 == 0) {
+            double sum = list.get(((list.size()) / 2) - 1).cpd + list.get(((list.size()) / 2)).cpd;
+            return sum / 2d;
+        } else {
+            return list.get(((list.size() + 1) / 2 ) - 1).cpd;
+        }
+    }
+
+    public double calculaetPoint2_5Average() {
+        double Q1 = calculateQ1();
+        double Q3 = calculateQ3();
+
+        List<DataCPD> Q1Q3 = new ArrayList<>();
+        for (DataCPD dataCPD : filteredDataCPD) {
+            if (dataCPD.cpd > Q1 && dataCPD.cpd < Q3) {
+                Q1Q3.add(dataCPD);
+            }
+        }
+
+        return calculateAverage(Q1Q3);
+    }
+
+    public double calculaetPoint2_5StandardDeviation() {
+        double Q1 = calculateQ1();
+        double Q3 = calculateQ3();
+
+        List<DataCPD> Q1Q3 = new ArrayList<>();
+        for (DataCPD dataCPD : filteredDataCPD) {
+            if (dataCPD.cpd > Q1 && dataCPD.cpd < Q3) {
+                Q1Q3.add(dataCPD);
+            }
+        }
+
+        return calculateStandardDeviation(Q1Q3);
     }
 
 }
