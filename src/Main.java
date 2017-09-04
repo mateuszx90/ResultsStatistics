@@ -31,7 +31,7 @@ public class Main {
             System.out.println("Q1 > x < Q3=  average : " + resultsCPD.calculaetPoint2_5Average());
             System.out.println("Q1 > x < Q3=  standard deviation: " + resultsCPD.calculaetPoint2_5StandardDeviation());
 
-            Correlation correlation = new Correlation("results_correlation.txt");
+            Correlation correlation = new Correlation("data.txt");
 
             System.out.println("\nPoint 3");
             System.out.println("Coorelation: " + correlation.calculateCorrelation());
@@ -39,6 +39,16 @@ public class Main {
             e.printStackTrace();
         }
 
+        try {
+            LeastSquares leastSquares = new LeastSquares("data.txt");
+            leastSquares.calculateParameters();
+
+            System.out.println("\nPoint 4");
+            System.out.println("parameter a: " + leastSquares.a);
+            System.out.println("parameter b: " + leastSquares.b);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
