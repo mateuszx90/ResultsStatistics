@@ -42,6 +42,7 @@ public class LeastSquares {
         return data;
     }
 
+    //tak samo jak przy koorelacji na podstawie wzorów wyliczamy parametry chyba to jest z tej prezentaji AGH już nie pamiętam
     public void calculateParameters() {
         float sumXY = 0;
         for (Data d : data) {

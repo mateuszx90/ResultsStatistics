@@ -40,6 +40,9 @@ public class Correlation {
         functionValues = readData(path);
     }
 
+
+    //tu jest serce koorelacji, wykorzystany tu jest poprostu wzór z prezentacji z AGH
+    // tam gdzie są fory to są sumy z tych wzorów
     public double calculateCorrelation() {
         double a = 0;
         for (FunctionValue functionValue : functionValues) {
@@ -84,6 +87,7 @@ public class Correlation {
             sumY += functionValue.y;
         }
 
+        //na końcu sklejamy te sumy tak jak we wzorze
         sumY = sumY * sumY;//do kwadratu
         sumBottomRight = Math.sqrt(sumBottomRight - sumY);
 
